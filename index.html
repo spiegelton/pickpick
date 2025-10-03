@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pick Pick</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="create-modal">
+      <form id="pickForm">
+        <div class="input-group">
+          <label for="player">Player</label>
+          <input type="text" name="player" placeholder="Player Name" required />
+        </div>
+        <div class="input-group">
+          <label for="moneyline">Money Line</label>
+          <input
+            type="number"
+            name="moneyline"
+            step="0.5"
+            placeholder="10.5"
+            required
+          />
+        </div>
+        <div class="input-group">
+            <label for="stat">Stat</label>
+            <input type="text" name="stat" placeholder="Shots" required />
+          </div>
+        <fieldset class="overunder">
+          <div>
+            <label for="under">UNDER</label>
+            <input type="radio" name="overunder" id="under" value="under" required />
+          </div>
+          <div>
+            <label for="over">OVER</label>
+            <input type="radio" name="overunder" id="over" value="over" required />
+          </div>
+        </fieldset>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="pick-list">
+        <div class="pick-item">
+            <span class="pick-name">Mauricio</span>
+            <div class="pick-details">
+                <span class="pick-overunder">Over</span>
+                <span class="pick-line">10.5</span>
+                <span class="pick-stat">shots</span>
+                </div>
+            </div>
+    </div>
+  </body>
+</html>
+
+<script>
+    const pickForm = document.querySelector('#pickForm')
+    const pickList = document.querySelector('.pick-list')
+    
+    pickForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const formData = new FormData(pickForm)
+
+        const player = formData.get('player')
+        const moneyline = formData.get('moneyline')
+        const stat = formData.get('stat')
+        const selectedRadio = document.querySelector('input[name="overunder"]:checked').value
+
+        const pick = {
+            player,
+            moneyline,
+            stat,
+            selectedRadio
+        }
+        console.log(pick)
+        createPick(pick)
+    })
+
+    function createPick(pick) {
+        const pickEl = `<div class="pick-item">
+            <span class="pick-name">${pick.player}</span>
+            <div class="pick-details">
+                <span class="pick-overunder">${pick.selectedRadio}</span>
+                <span class="pick-line">${pick.moneyline}</span>
+                <span class="pick-stat">${pick.stat}</span>
+                </div>
+            </div>`
+        pickList.insertAdjacentHTML('beforeend', pickEl)
+    }
+</script>
